@@ -8,6 +8,7 @@ function App() {
   const [fetchData,setFetchData] = useState(null)
   const [userInput,setUserInput] =useState("")
   const [userQuery,setUserQuery] =useState("")
+  const [loading, setLoading] = useState(true)
   
 
   useEffect(
@@ -16,7 +17,7 @@ function App() {
       console.log(url)
       fetch(url)
       .then(res => res.json())
-      .then(data=>setFetchData(data))
+      .then(data=>{setFetchData(data);setLoading(false)})
       }
     ,[userQuery]) 
 
@@ -37,10 +38,14 @@ function App() {
     <>
     <div>
         <input type="text" placeholder="search" onChange={(e)=>setUserInput(e.target.value)} ></input>
-        <button onClick={(e)=> setUserQuery(userInput)}>Search</button>
+        <button onClick={(e)=>{setUserQuery(userInput);setLoading(true)}}>Search</button>
     </div>
     <div>
-      {fetchData?(fetchData.hits.map((element,index)=>{
+      {loading?(
+        <>
+        <p>Loading...</p><ClipLoader/> 
+        </>
+      ):(fetchData.hits.map((element,index)=>{
         return (
         <Fragment key={index}>
           <div>
@@ -50,9 +55,7 @@ function App() {
           </div>
         </Fragment>
         )
-      })):(
-        <ClipLoader/>
-      )}
+      }))}
     </div>
     </>
   );
