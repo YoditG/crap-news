@@ -9,17 +9,29 @@ function App() {
   const [userInput,setUserInput] =useState("")
   const [userQuery,setUserQuery] =useState("")
   const [loading, setLoading] = useState(true)
+  const [content,setContent] = useState(true)
+  
   
 
   useEffect(
     () => { 
       const url = `http://hn.algolia.com/api/v1/search?query=${userQuery}`
       console.log(url)
+      const fetching = () =>{ 
       fetch(url)
       .then(res => res.json())
-      .then(data=>{setFetchData(data);setLoading(false)})
+      .then(data=>{!data&&setContent(false);setFetchData(data);setLoading(false);console.log(data)})
+      .catch(error=>alert("loading error"))
+      }
+      fetching();
+      
+    const refresh = setInterval(()=>fetching(),3000)
+    return ()=>clearInterval(refresh)
       }
     ,[userQuery]) 
+
+    
+    
 
     //onChange: anonymous function (e)=>setUserInput(e.target.value) is similar to:
     // input: onChange={handleChange}
@@ -41,7 +53,8 @@ function App() {
         <button onClick={(e)=>{setUserQuery(userInput);setLoading(true)}}>Search</button>
     </div>
     <div>
-      {loading?(
+      {content?
+      loading?(
         <>
         <p>Loading...</p><ClipLoader/> 
         </>
@@ -55,7 +68,8 @@ function App() {
           </div>
         </Fragment>
         )
-      }))}
+      }))
+      :  <p> No Restults found.</p>}
     </div>
     </>
   );
