@@ -36,3 +36,26 @@
     transform: rotate(360deg);
   }
 }
+
+.kaka-image {
+  width: 50px;
+  height: 60px;
+}
+
+
+.body-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  text-align: center;
+  
+}
+
+.searBar {
+  border: 4px;
+}
+
+.linkStyle {
+  color: rgb(95, 29, 29);
+}

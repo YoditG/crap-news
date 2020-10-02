@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment} from 'react';
-//import logo from './logo.svg';
+import kaka from './kaka.png';
 import './App.css';
 import ClipLoader from "react-spinners/ClipLoader";
 
@@ -47,23 +47,28 @@ function App() {
 
 
   return (
-    <>
+    <div className="body-container">
+    <header className="header-container">
+    <div ><h1 style={{fontSize: 80}}> Crap News</h1></div>
+    
+    <h3 style={{fontSize: 40}}>get the latest news on <img alt="kaka" className="kaka-image" src={kaka}/></h3>
+    </header>
     <div>
-        <input type="text" placeholder="search" onChange={(e)=>setUserInput(e.target.value)} ></input>
+        <input type="text" placeholder="crap-search" onChange={(e)=>setUserInput(e.target.value)} className="searchBar" ></input>
         <button onClick={(e)=>{setUserQuery(userInput);setLoading(true)}}>Search</button>
     </div>
     <div>
       {content?
       loading?(
         <>
-        <p>Loading...</p><ClipLoader/> 
+        <p>Flushing...</p><ClipLoader/> 
         </>
       ):(fetchData.hits.map((element,index)=>{
         return (
         <Fragment key={index}>
           <div>
             <h2>
-              <a href={element.url} target="_blank" rel="noopener noreferrer">{element.title}</a>
+              <a style={{textDecoration: 'none'}} className="linkStyle" href={element.url} target="_blank" rel="noopener noreferrer">{element.title}</a>
             </h2>
           </div>
         </Fragment>
@@ -71,7 +76,7 @@ function App() {
       }))
       :  <p> No Restults found.</p>}
     </div>
-    </>
+    </div>
   );
 }
 
